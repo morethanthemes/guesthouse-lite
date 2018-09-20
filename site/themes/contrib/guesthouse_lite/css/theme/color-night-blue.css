@@ -1,0 +1,811 @@
+/**
+ * @file
+ * Night Blue color styling for GuestHouse+ for Drupal 8.
+ *
+ * Base color: #537f92
+ */
+
+/* base: elements */
+a {
+  color: #30323D;
+}
+a:hover,
+a:focus {
+  color: #537f92;
+}
+a.link--dark,
+.link--dark a {
+  color: #537f92;
+}
+a.link--dark:hover,
+.link--dark a:hover,
+a.link--dark:focus,
+.link--dark a:focus {
+  color: #30323D;
+}
+a.link--bordered,
+.link--bordered a {
+  border-color: #30323D;
+}
+.text--dark {
+  color: #292b34;
+}
+.text--colored {
+  color: #30323D;
+}
+.text--bordered {
+  border-color: #30323D;
+}
+.text--colored-secondary {
+  color: #537f92;
+}
+.region--dark-typography blockquote {
+  border-color: #30323D;
+}
+.link--hover-style-3 {
+  background-image: linear-gradient(rgba(83, 127, 146, 0.5) 0%, rgba(83, 127, 146, 0.5) 100%);
+}
+.link--hover-style-3:hover {
+  background-image: linear-gradient(#537f92 0%, #537f92 100%);
+}
+.region--light-typography .link--hover-style-3:hover {
+  color: #30323D;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #537f92;
+}
+
+/* base: layout */
+.region--dark-background {
+  background-color: #292b34;
+}
+.region--colored-background {
+  background-color: #30323D;
+}
+.region--colored-secondary-background {
+  background-color: #537f92;
+}
+.subfooter.region--colored-secondary-background {
+  background-color: #4d7788;
+}
+.region--dark-background + .region--separator-incline-diagonal:before {
+  background: linear-gradient(to bottom right, #292b34 49.5%, transparent 50%);
+}
+.region--colored-background + .region--separator-incline-diagonal:before {
+  background: linear-gradient(to bottom right, #30323D 49.5%, transparent 50%);
+}
+.region--colored-secondary-background + .region--separator-incline-diagonal:before {
+  background: linear-gradient(to bottom right, #537f92 49.5%, transparent 50%);
+}
+.region--dark-background + .region--separator-decline-diagonal:before {
+  background: linear-gradient(to bottom left, #292b34 49.5%, transparent 50%);
+}
+.region--colored-background + .region--separator-decline-diagonal:before {
+  background: linear-gradient(to bottom left, #30323D 49.5%, transparent 50%);
+}
+.region--colored-secondary-background + .region--separator-decline-diagonal:before {
+  background: linear-gradient(to bottom right, #537f92 49.5%, transparent 50%);
+}
+.page-container-border-enabled .page-container {
+  border-color: #30323D;
+}
+
+/* components: accordion */
+.panel-title a.collapsed {
+  color: #537f92;
+}
+.panel-title a,
+.panel-title a:hover,
+.panel-title a:focus {
+  background-color: #537f92;
+}
+.panel-heading--trigger-icon .panel-title a:after {
+  background-color: #ffffff;
+  color: #537f92;
+}
+.panel-heading--trigger-icon .panel-title a.collapsed:after {
+  background-color: #30323D;
+  color: #ffffff;
+}
+.panel-heading--trigger-icon .panel-title a:hover:after {
+  background-color: #ffffff;
+  color: #537f92;
+}
+.panel-group.panel-group--style-2 .panel .panel-title a {
+  background-color: #30323D;
+}
+.panel-group.panel-group--style-2 .panel-title a.collapsed {
+  background-color: #537f92;
+}
+.panel-group.panel-group--style-2 .panel-title a:hover {
+  background-color: #30323D;
+}
+.region--light-typography .panel-group.panel-group--style-2 .panel-heading--trigger-icon .panel-title a,
+.region--light-typography .panel-group.panel-group--style-2 .panel-heading--trigger-icon .panel-title a:hover {
+  color: #537f92;
+}
+
+/* components: buttons */
+a.button,
+.button > a,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+  background-color: #30323D;
+  border-color: #30323D;
+}
+a.button:hover,
+a.button:focus,
+.button > a:hover,
+.button > a:focus,
+input[type="submit"]:hover,
+input[type="submit"]:focus,
+input[type="reset"]:hover,
+input[type="reset"]:focus,
+input[type="button"]:hover,
+input[type="button"]:focus {
+  background-color: #537f92;
+  border-color: #537f92;
+}
+a.button.button--hover-style-2:before,
+.button.button--hover-style-2 > a:before {
+  background-color: #537f92;
+  border-color: #537f92;
+}
+.region--light-typography.region--colored-background a.button:hover,
+.region--light-typography.region--colored-background .button > a:hover,
+.region--light-typography.region--colored-background input[type="submit"]:hover,
+.region--light-typography.region--colored-background input[type="reset"]:hover,
+.region--light-typography.region--colored-background input[type="button"]:hover,
+.region--light-typography.region--colored-background a.button:focus,
+.region--light-typography.region--colored-background .button > a:focus,
+.region--light-typography.region--colored-background input[type="submit"]:focus,
+.region--light-typography.region--colored-background input[type="reset"]:focus,
+.region--light-typography.region--colored-background input[type="button"]:focus {
+  color: #537f92;
+}
+.button.button--hover-style-2 > a.book-now {
+  color: #30323D;
+}
+
+/* components: comment */
+.node .comment ul.links li a:hover {
+  color: #537f92;
+}
+
+/* components: destination preview carousel */
+.mt-carousel-destination-preview .owl-nav {
+  background-color: rgba(83, 127, 146, 0.7);
+}
+
+/* components: dropdowns */
+.region--colored-background .dropdown-menu {
+  background-color: #30323D;
+}
+.region--dark-background .dropdown-menu {
+  background-color: #292b34;
+}
+.region--colored-secondary-background .dropdown-menu {
+  background-color: #537f92;
+}
+
+/* components: fancy block */
+.region--dark-background .fancy-block-text {
+  background-color: #292b34;
+}
+.region--colored-background .fancy-block-text {
+  background-color: #30323D;
+}
+.region--colored-secondary-background .fancy-block-text {
+  background-color: #537f92;
+}
+
+/* components: fancy linked images block */
+.clip-path-support .clip-pentagon-container {
+  background-color: #30323D;
+}
+.clip-path-support .clip-circle-container {
+  background-color: #30323D;
+}
+.clip-path-support .clip-rectangle-container:before {
+  border-color: #30323D;
+}
+
+/* CSS rules only for FF*/
+@-moz-document url-prefix() {
+  .clip-pentagon-container {
+    background-color: #30323D;
+  }
+  .clip-circle-container {
+    background-color: #30323D;
+  }
+  .clip-rectangle-container:before {
+    border-color: #30323D;
+  }
+}
+
+/* components: featured linked text tiles block */
+.region--light-typography .featured-linked-text-tile__body a {
+  color: #30323D;
+}
+.region--light-typography .featured-linked-text-tile__body a:hover {
+  color: #537f92;
+}
+.region--light-typography .featured-linked-text-tile a.button {
+  background-color: #537f92;
+  border-color: #537f92;
+}
+.region--light-typography .featured-linked-text-tile a.button:hover {
+  background-color: #30323D;
+  border-color: #30323D;
+}
+.featured-linked-text-tile .featured-linked-text-tile__title a {
+  color: #537f92;
+}
+
+/* components: forms */
+input.form-text:hover,
+input.form-tel:hover,
+input.form-email:hover,
+input.form-url:hover,
+input.form-search:hover,
+input.form-file:hover,
+input.form-number:hover,
+input.form-color:hover,
+input.form-date:hover,
+textarea:hover,
+select:hover,
+input.form-text:focus,
+input.form-tel:focus,
+input.form-email:focus,
+input.form-url:focus,
+input.form-search:focus,
+input.form-file:focus,
+input.form-number:focus,
+input.form-color:focus,
+input.form-date:focus,
+textarea:focus,
+select:focus {
+  border-color: #537f92;
+}
+
+/* components: content tabs */
+.field--name-field-mt-content-tabs .nav-tabs > li > a {
+  color: #537f92;
+}
+.field--name-field-mt-content-tabs .nav-tabs > li > a:hover {
+  color: #30323D;
+}
+.field--name-field-mt-content-tabs .nav-tabs > li > a:focus,
+.field--name-field-mt-content-tabs .nav-tabs > li.active > a,
+.field--name-field-mt-content-tabs .nav-tabs > li.active > a:focus,
+.field--name-field-mt-content-tabs .nav-tabs > li.active > a:hover {
+  color: #537f92;
+  border-color: #537f92;
+}
+
+/* components: field taxonomy terms */
+.field--entity-reference-target-type-taxonomy-term .field__item a:hover,
+.field--entity-reference-target-type-taxonomy-term.field__item a:hover {
+  background-color: #30323D;
+}
+
+/* components: fixed header */
+.onscroll .header.js-fixed.region--dark-background {
+  background-color: rgba(41, 43, 52, 0.95);
+}
+.onscroll .header.js-fixed.region--colored-background {
+  background-color: rgba(48, 50, 61, 0.95);
+}
+.onscroll .header.js-fixed.region--colored-secondary-background {
+  background-color: rgba(83, 127, 146, 0.95);
+}
+
+/* components: icon features */
+.region--dark-typography .feature__icon {
+  background-color: #537f92;
+}
+.region--light-typography .feature__icon,
+.region--light-typography .feature__icon:hover,
+.region--light-typography .feature__icon:focus {
+  color: #537f92;
+}
+.region--dark-typography .feature__icon:hover {
+  background-color: #30323D;
+}
+.region--dark-typography .feature h5 a {
+  color: #537f92;
+}
+.region--dark-typography .feature h5 a:hover {
+  color: #30323D;
+}
+
+/* components: icons list */
+.region--colored-secondary-background ul.icons-list li a:hover {
+  color: #30323D;
+  transform: scale(1);
+}
+.region--dark-typography ul.icons-list.icons-list--bordered li a {
+  background-color: #30323D;
+  border-color: #30323D;
+}
+.region--dark-typography ul.icons-list.icons-list--bordered li a:hover {
+  background-color: #537f92;
+  border-color: #537f92;
+}
+
+/* components: image overlay */
+.overlay--colored {
+  background-color: rgba(83, 127, 146, 0.7);
+}
+.overlay-icon--button {
+  background-color: #537f92;
+}
+
+/* components: inverted header */
+@media (min-width: 768px) {
+  .inverted-header-enabled:not(.onscroll) .js-transparent-header ul.menu ul li a,
+  .inverted-header-enabled:not(.onscroll) .js-transparent-header ul.menu ul li > span {
+    color: #30323D;
+  }
+  .inverted-header-enabled:not(.onscroll) .js-transparent-header ul.menu li > a:hover,
+  .inverted-header-enabled:not(.onscroll) .js-transparent-header ul.menu li > span:hover,
+  .inverted-header-enabled:not(.onscroll) .js-transparent-header ul.menu li.sfHover > a {
+    color: #537f92;
+  }
+  .inverted-header-enabled:not(.onscroll) .js-transparent-header ul.menu li > a:hover .sf-sub-indicator:after,
+  .inverted-header-enabled:not(.onscroll) .js-transparent-header ul.menu li.sfHover > a .sf-sub-indicator:after {
+    color: #537f92;
+  }
+}
+
+/* components: in page navigation */
+.onscroll .header-container ul.in-page-navigation li.active a {
+  color: #30323D;
+}
+
+/* components: language switcher */
+.region--dark-typography .block-language ul li .is-active {
+  color: #537f92;
+}
+
+/* components: layout switcher */
+.layout-switcher ul li a {
+  color: #30323D;
+}
+.layout-switcher ul li.active a {
+  color: #537f92;
+}
+
+/*main slideshow block*/
+.ms-transparent-background .region--dark-typography.tp-caption__title a:hover {
+  color: #537f92;
+}
+
+/* components: menu */
+ul.menu li a:hover {
+  background-color: #537f92;
+}
+.region--light-typography ul.menu li a:hover,
+.region--light-typography ul.menu li a:hover:before {
+  color: #537f92;
+}
+
+/*header menu*/
+.header-container ul.menu > li a.is-active,
+.header-container ul.menu > li.active-trail > a {
+  color: #30323D;
+}
+.header-container ul.menu li a:hover,
+.header-container ul.menu > li > a.is-active:hover {
+  color: #537f92;
+}
+.header-container ul.menu ul li a.is-active,
+.header-container ul.menu ul li.active-trail > a {
+  color: #537f92;
+}
+.header-container .sf-menu li.sfHover > a,
+.header-container .sf-menu li > a:hover,
+.header-container .sf-menu li.sfHover > a.is-active,
+.header-container .sf-menu li.sfHover.active-trail > a {
+  color: #537f92;
+}
+.header-container ul.sf-menu > li > a.is-active .sf-sub-indicator:after,
+.header-container ul.sf-menu > li.active-trail > a .sf-sub-indicator:after {
+  color: #30323D;
+}
+.header-container ul.sf-menu > li.sfHover.active-trail > a .sf-sub-indicator:after,
+.header-container ul.sf-menu > li.active-trail > a:hover .sf-sub-indicator:after,
+.header-container ul.sf-menu > li > a:hover .sf-sub-indicator:after,
+.header-container ul.sf-menu > li.sfHover > a .sf-sub-indicator:after {
+  color: #537f92;
+}
+.header-container .sf-menu ul li a {
+  color: #30323D;
+}
+.header-container .sf-menu ul li a:hover,
+.header-container .sf-menu ul li.sfHover > a {
+  color: #537f92;
+}
+
+/*slideout menu*/
+.slideout.region--dark-typography ul.menu.sf-accordion li.active-trail > a,
+.slideout ul.menu.sf-accordion li a:hover {
+  color: #537f92;
+}
+
+/*header menu for colored backgrounds*/
+.header-container .region--light-typography .sf-menu li.sfHover > a,
+.header-container .region--light-typography .sf-menu li.sfHover > a.is-active,
+.header-container .region--light-typography .sf-menu li.sfHover.active-trail > a {
+  color: #537f92;
+}
+.header-container .region--light-typography ul.menu li > a:hover .sf-sub-indicator:after,
+.header-container .region--light-typography ul.menu li.sfHover > a .sf-sub-indicator:after {
+  color: #537f92;
+}
+
+/*main menu call to action button*/
+.menu.cta-active > li:last-child > a,
+.header-container ul.menu.cta-active li:last-child > a,
+.slideout ul.menu.cta-active li:last-child > a {
+  color: #30323D;
+  border-color: rgba(48, 50, 61, 0.5);
+}
+.menu.cta-active > li:last-child > a:hover,
+.header-container ul.menu.cta-active li:last-child > a:hover,
+.slideout ul.menu.cta-active li:last-child > a:hover {
+  background-color: #537f92;
+  border-color: #537f92;
+}
+.region--light-typography .menu.sf-menu.cta-active > li:last-child > a:hover {
+  color: #537f92;
+  opacity: 1;
+}
+.slideout.region--light-typography ul.menu.cta-active > li:last-child > a:hover {
+  color: #537f92;
+  opacity: 1;
+}
+.region--dark-typography .subfooter__section ul.menu li a:hover {
+  border-bottom-color: #537f92;
+  color: #537f92;
+}
+
+/* components: node links */
+.node ul.links li a {
+  color: #30323D;
+}
+.node ul.links li a:hover,
+.node ul.links li a:focus {
+  color: #537f92;
+}
+
+/* components: node destination */
+.region--dark-typography .field--name-field-mt-destination-reference .field__label,
+.region--dark-typography .field--name-field-mt-highlight .field__label {
+  color: #537f92;
+}
+
+/* components: node product */
+.node--type-mt-product .field--name-field-mt-buy-link a {
+  background-color: #30323D;
+  border-color: #30323D;
+}
+.node--type-mt-product .field--name-field-mt-buy-link a:hover {
+  background-color: #537f92;
+  border-color: #537f92;
+}
+.region--light-typography .field--name-field-mt-buy-link a:hover {
+  color: #537f92;
+}
+.field--name-field-mt-highlight-link a {
+  background-color: #30323D;
+  border-color: #30323D;
+}
+.field--name-field-mt-highlight-link a:hover {
+  background-color: #537f92;
+  border-color: #537f92;
+}
+
+/* components: node service */
+.region--dark-typography .node--type-mt-service .field--name-field-mt-price {
+  color: #30323D;
+}
+.node--type-mt-service .field--name-field-mt-buy-link a {
+  background-color: #30323D;
+  border-color: #30323D;
+}
+.node--type-mt-service .field--name-field-mt-buy-link a:hover {
+  background-color: #537f92;
+  border-color: #537f92;
+}
+.region--light-typography .field--name-field-mt-buy-link a:hover {
+  color: #537f92;
+}
+.region--dark-typography .node--type-mt-service .field:not(.field--label-inline) .field__label,
+.region--dark-typography .node--type-mt-service h3.title {
+  color: #537f92;
+}
+
+/* components: node testimonials */
+.node--type-mt-testimonial .field--name-body p:first-child:after {
+  color: rgba(48, 50, 61, 0.5);
+}
+.node--type-mt-testimonial .field--name-field-mt-testimonial-link a {
+  background-color: #30323D;
+  border-color: #30323D;
+}
+.node--type-mt-testimonial .field--name-field-mt-testimonial-link a:hover {
+  background-color: #537f92;
+  border-color: #537f92;
+}
+.region--light-typography .field--name-field-mt-testimonial-link a:hover {
+  color: #537f92;
+}
+
+/* components: owl carousel global */
+.owl-nav div:hover {
+  color: #537f92;
+}
+.owl-dot span {
+  border-color: #30323D;
+}
+.owl-dot.active span {
+  border-color: #537f92;
+}
+.owl-dot:hover span {
+  background-color: #30323D;
+  border-color: #30323D;
+}
+
+/* components: pagers */
+li.pager__item.is-active a {
+  color: #537f92;
+}
+
+/* components: post progress */
+.post-progress__bar {
+  background-color: #30323D;
+}
+
+/* components: progress bars */
+.progress-bar-default {
+  background-color: #537f92;
+}
+
+/* components: share links */
+.share-links ul li a:hover {
+  background-color: #537f92;
+}
+.js-share-links-fixed .share-links ul li a:hover {
+  background-color: #537f92;
+}
+
+/* components: slideout */
+.slideout-toggle {
+  background-color: #30323D;
+}
+
+/* components: slider revolution global */
+.tp-caption__button {
+  border-color: #30323D;
+  background-color: #30323D;
+}
+.tp-caption__button:hover {
+  background-color: #537f92;
+  border-color: #537f92;
+}
+.tp-tabs {
+  background-color: rgba(83, 127, 146, 0.93) !important;
+}
+.tp-tabs .tp-tab.selected,
+.tp-tabs .tp-tab:hover {
+  background-color: #537f92;
+}
+
+/* components: tables */
+table tr th {
+  background-color: #537f92;
+}
+
+/* components: tabs */
+.nav-tabs > li > a {
+  color: #537f92;
+}
+.nav-tabs > li > a:focus,
+.nav-tabs > li > a:hover {
+  background-color: #30323D;
+  border-color: #30323D;
+}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:focus,
+.nav-tabs > li.active > a:hover {
+  background-color: #537f92;
+  border-color: #537f92;
+}
+.nav-tabs.nav-tabs--vertical > li > a:hover,
+.nav-tabs.nav-tabs--vertical > li > a:focus {
+  border-bottom-color: #30323D;
+}
+.nav-tabs.nav-tabs--vertical > li.active > a {
+  border-bottom-color: #537f92;
+}
+.region--light-typography .nav-tabs > li > a:focus,
+.region--light-typography .nav-tabs > li > a:hover,
+.region--light-typography .nav-tabs > li.active > a,
+.region--light-typography .nav-tabs > li.active > a:focus,
+.region--light-typography .nav-tabs > li.active > a:hover {
+  color: #537f92;
+}
+.nav-tab__subtitle {
+  color: #30323D;
+}
+.nav-tabs.nav-tabs--fancy > .active > a,
+.nav-tabs.nav-tabs--fancy > .active > a:focus,
+.nav-tabs.nav-tabs--fancy > .active > a:hover,
+.nav-tabs.nav-tabs--fancy > li > a:focus,
+.nav-tabs.nav-tabs--fancy > li > a:hover {
+  border-color: #537f92;
+  color: #537f92;
+}
+.region--light-typography.region--colored-background .nav-tabs.nav-tabs--fancy > li > a,
+.region--light-typography.region--colored-background .nav-tabs.nav-tabs--fancy > li > a:hover,
+.region--light-typography.region--colored-background .nav-tabs.nav-tabs--fancy > li > a:focus {
+  color: #537f92;
+}
+
+/* components: to top */
+.to-top {
+  background-color: #30323D;
+}
+.to-top:hover {
+  background-color: rgba(48, 50, 61, 0.6);
+}
+
+/* components: view articles grid */
+.view-articles-grid .views-field-title a {
+  color: #537f92;
+}
+.view-articles-grid .views-field-title a:hover {
+  color: #30323D;
+}
+.region--light-typography .view-articles-grid .article-header a {
+  color: #30323D;
+}
+.region--light-typography .view-articles-grid .article-header a:hover {
+  color: #537f92;
+}
+
+/* components: view articles list 2 */
+.region--dark-typography .view-articles-list-2 .views-row:after {
+  color: #30323D;
+}
+
+/* components: view benefits grid */
+.view-benefits-grid .view-benefits-icon {
+  background-color: #537f92;
+}
+.view-benefits-grid .views-row:hover .view-benefits-icon {
+  background: #30323D;
+}
+.region--light-typography .view-benefits-icon,
+.region--light-typography .views-row:hover .view-benefits-icon {
+  color: #537f92;
+}
+.region--dark-typography .feature__icon:hover {
+  background-color: #30323D;
+}
+
+/* components: view collections image overlay */
+.view-collections-grid .overlay-inner a,
+.view-collections-carousel .overlay-inner a,
+.view-collection-masonry .overlay-inner a {
+  background-color: #30323D;
+  border-color: #30323D;
+}
+.view-collections-grid .overlay-inner a:hover,
+.view-collections-carousel .overlay-inner a:hover,
+.view-collection-masonry .overlay-inner a:hover {
+  background-color: #537f92;
+  border-color: #537f92;
+}
+
+/* components: view destinations directory */
+.directory-item .views-field-title:hover {
+  background-color: #537f92;
+}
+
+/* components: view popular taxonomy */
+.view-mt-popular-tags .views-row a:hover {
+  background-color: #30323D;
+}
+.region--gray-background .view-mt-popular-tags .views-row a:hover {
+  background-color: #30323D;
+}
+.region--colored-background .view-mt-popular-tags .views-row a:hover,
+.region--dark-background .view-mt-popular-tags .views-row a:hover,
+.region--black-background .view-mt-popular-tags .views-row a:hover {
+  color: #537f92;
+}
+
+/* components: pills */
+.nav-pills > li > a {
+  color: #537f92;
+}
+.nav-pills > li.active > a {
+  background-color: #537f92;
+}
+.nav-pills > li.active > a:focus,
+.nav-pills > li.active > a:hover,
+.nav-pills > li > a:hover {
+  background-color: #30323D;
+}
+.region--light-typography .nav-pills > li.active > a,
+.region--light-typography .nav-pills > li.active > a:focus,
+.region--light-typography .nav-pills > li.active > a:hover,
+.region--light-typography .nav-pills > li > a:hover {
+  color: #537f92;
+}
+
+/* components: view pricing tables */
+.view-pricing-tables .pricing-table {
+  border-color: #30323D;
+}
+.view-pricing-tables .pricing-table-header {
+  background-color: #30323D;
+}
+.view-pricing-tables .pricing-table .views-field-field-mt-most-popular {
+  background-color: #537f92;
+}
+
+/* components: view promoted posts carousel */
+.view-promoted-posts-carousel .overlay-inner h5 a {
+  color: #30323D;
+}
+.view-promoted-posts-carousel .overlay-inner h5 a:hover {
+  color: #537f92;
+}
+
+/* components: view services grid */
+.region--dark-typography .view-services-grid .views-field-field-mt-price {
+  color: #30323D;
+}
+
+/* components: view testimonials grid */
+.view-testimonials-grid .views-field-body p:first-child::before {
+  color: rgba(48, 50, 61, 0.5);
+}
+
+/* components: view testimonials grid 2 */
+.view-testimonials-grid-2 .views-field-body p:first-child:after {
+  color: rgba(48, 50, 61, 0.5);
+}
+
+/* components: view testimonials list */
+.view-testimonials-list .views-field-body p:first-child:after {
+  color: rgba(48, 50, 61, 0.5);
+}
+
+/* components: view testimonials list 2 */
+.view-testimonials-list-2 .views-field-body p:after {
+  color: rgba(48, 50, 61, 0.5);
+}
+
+/* components: views */
+.col-md-12 .view > .more-link a {
+  background-color: #30323D;
+  border-color: #30323D;
+}
+.col-md-12 .view > .more-link a:hover {
+  background-color: #537f92;
+  border-color: #537f92;
+}
+.region--light-typography .col-md-12 .view > .more-link a:hover {
+  color: #29235c;
+  border-color: #ffffff;
+}

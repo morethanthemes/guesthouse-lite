@@ -1,0 +1,13 @@
+/**
+ * @file
+ * Visual styles for GuestHouse lite's tourguides.
+ */
+ .tour-guides-block-field-image {
+    width: 170px;
+    height: 170px;
+    float: left;
+ }
+ .tour-guides-block {
+    margin-left: 200px;
+    clear: right;
+ }

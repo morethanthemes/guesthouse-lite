@@ -1,0 +1,57 @@
+/**
+ * @file
+ * Visual styles for GuestHouse+'s nav pills.
+ */
+.nav.nav-pills {
+  margin-right: -5px;
+  margin-left: -5px;
+}
+.nav.nav-pills.text-center {
+  font-size: 0px;
+}
+.nav.nav-pills.text-center > li {
+  float: none;
+  display: inline-block;
+}
+.nav-pills > li > a {
+  text-transform: capitalize;
+  text-decoration: none;
+  padding: 5px 15px;
+  font-size: 16px;
+  border-radius: 0;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #eaeaea;
+  background-color: #f6f6f6;
+}
+.headings-wide-spacing-enabled .nav-pills > li > a {
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+.nav-pills > li.active > a {
+  color: #ffffff;
+}
+.nav-pills > li.active > a:focus,
+.nav-pills > li.active > a:hover,
+.nav-pills > li > a:hover {
+  color: #ffffff;
+}
+.nav.nav-pills > li,
+.nav.nav-pills > li + li {
+  margin: 0px 5px 15px;
+}
+
+/*nav pills @colored-regions*/
+.region--light-typography .nav.nav-pills > li > a {
+  color: #ffffff;
+  background-color: transparent;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.region--light-typography .nav.nav-pills > li > a:focus,
+.region--light-typography .nav.nav-pills > li > a:hover,
+.region--light-typography .nav.nav-pills > li.active > a,
+.region--light-typography .nav.nav-pills > li.active > a:focus,
+.region--light-typography .nav.nav-pills > li.active > a:hover {
+  background-color: #ffffff;
+  border-color: #ffffff;
+}

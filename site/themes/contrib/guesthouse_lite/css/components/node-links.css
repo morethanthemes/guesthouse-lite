@@ -1,0 +1,39 @@
+/**
+ * @file
+ * Styles for GuestHouse+'s more links.
+ */
+.node ul.links {
+  padding: 10px 0;
+  margin: 0;
+  list-style: none;
+}
+.node ul.links li a {
+  font-size: 16px;
+  font-weight: 400;
+  display: inline-block;
+  line-height: 1.5;
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  margin: 10px 0;
+  text-align: center;
+}
+.headings-wide-spacing-enabled .node ul.links li a {
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+.node ul.inline li {
+  padding: 0;
+  display: inline-block;
+}
+.node ul.inline li a {
+  margin: 0 20px 10px 0;
+}
+.node .comment-forbidden a:last-child {
+  margin: 0 10px 10px 10px;
+}
+.node .comment-forbidden a:first-child {
+  margin: 0 10px 10px 0;
+}

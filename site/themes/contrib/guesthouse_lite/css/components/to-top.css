@@ -1,0 +1,48 @@
+/**
+ * @file
+ * Visual styles for GuestHouse+'s scroll to top button.
+ */
+.to-top {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  min-width: 50px;
+  min-height: 50px;
+  padding: 10px;
+  line-height: 30px;
+  font-size: 14px;
+  color: #fff;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+  cursor: pointer;
+  text-align: center;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  -webkit-transform: scale(0);
+  -moz-transform: scale(0);
+  -ms-transform: scale(0);
+  -o-transform: scale(0);
+  transform: scale(0);
+  -webkit-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -ms-transition: all 0.4s;
+  transition: all 0.4s;
+  z-index: 100;
+}
+.to-top.show {
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transform: scale(1);
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+@media (min-width: 992px) {
+  .to-top {
+    right: 30px;
+    bottom: 30px;
+  }
+}

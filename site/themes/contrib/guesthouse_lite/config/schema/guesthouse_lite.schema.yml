@@ -1,0 +1,5 @@
+# Schema for the configuration files of the GuestHouse+ theme.
+
+guesthouse_lite.settings:
+  type: theme_settings
+  label: 'GuestHouse Lite settings'

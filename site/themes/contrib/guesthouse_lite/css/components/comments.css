@@ -1,0 +1,25 @@
+/**
+ * @file
+ * Visual styles for comments section in GuestHouse+.
+ */
+
+/*comments section*/
+.comment-wrapper {
+  margin-top: 90px;
+  background-color: #f6f6f6;
+  padding: 40px;
+}
+.col-md-12 .comment-wrapper {
+  padding: 60px 100px;
+}
+.comment-wrapper h2.title {
+  padding-bottom: 15px;
+  margin: 0px 0 40px 0;
+  font-size: 24px;
+  font-weight: 400;
+  border-bottom: 2px solid #f1f1f1;
+  text-align: left;
+}
+.comment-wrapper input.form-text {
+  background-color: #ffffff;
+}

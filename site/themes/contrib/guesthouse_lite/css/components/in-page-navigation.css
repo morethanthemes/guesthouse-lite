@@ -1,0 +1,15 @@
+/**
+ * @file
+ * Visual styles for GuestHouse+'s in page navigation.
+ */
+body.in-page-navigation-active {
+  position: relative;
+}
+.header-container .region--dark-typography ul.menu.in-page-navigation li a:hover,
+.header-container .region--dark-typography ul.menu.in-page-navigation li.sfHover a {
+  border-color: transparent;
+  background-color: transparent;
+}
+.header-container ul.in-page-navigation li.active a {
+  background-color: #ffffff;
+}

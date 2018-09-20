@@ -1,0 +1,22 @@
+/**
+ * @file
+ * Visual styles for GuestHouse+'s contact info block.
+ */
+.call-to-action {
+  padding: 50px 0 40px;
+}
+.container-fluid .call-to-action {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+.call-to-action h2 {
+  margin: 0;
+}
+.call-to-action a.button {
+  margin: 0 0 35px 0;
+}
+@media (min-width: 992px) { 
+  .call-to-action a.button {
+    margin: 25px 0;
+  }
+}

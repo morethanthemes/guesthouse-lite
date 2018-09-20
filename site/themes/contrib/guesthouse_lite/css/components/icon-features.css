@@ -1,0 +1,106 @@
+/**
+ * @file
+ * Visual styles for GuestHouse+'s icon features.
+ */
+.field--name-field-mt-if {
+  padding: 40px 0 30px;
+}
+.features.region--gray-background {
+  padding: 30px 30px 20px;
+}
+@media (max-width: 991px) {
+  .feature {
+    margin-bottom: 20px;
+  }
+}
+.features--vertical .feature {
+  border-bottom-color: #eeeeee;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  margin-bottom: 25px;
+  padding-bottom: 5px;
+}
+.region--light-typography .features--vertical .feature {
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+}
+.features--vertical .feature:last-child {
+  border-color: transparent;
+  border-width: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.feature__icon {
+  width: 70px;
+  height: 70px;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border-radius: 100%;
+  display: block;
+  text-align: center;
+  margin: 0 25px 0 0;
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  color: #ffffff;
+  float: left;
+}
+.feature__icon:hover,
+.feature__icon:focus {
+  color: #ffffff;
+}
+.region--light-typography .feature__icon {
+  background-color: #ffffff;
+}
+.region--light-typography .feature__icon:hover {
+  background-color: rgba(255, 255, 255, 0.85);
+}
+.feature__icon i {
+  font-size: 18px;
+  line-height: 70px;
+}
+.feature h5 {
+  margin: 0;
+  font-weight: 500;
+}
+.features--vertical h5 {
+  padding-top: 0;
+  padding-bottom: 10px;
+}
+.feature__link a {
+  margin-top: 0;
+}
+.feature .feature__icon ~ h5,
+.feature .feature__icon ~ .field--name-field-mt-if-body,
+.feature .feature__icon ~ p,
+.feature .feature__icon ~ .feature__link {
+  margin-left: 95px;
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .feature__icon {
+    float: none;
+  }
+  .feature .feature__icon ~ h5,
+  .feature .feature__icon ~ .field--name-field-mt-if-body,
+  .feature .feature__icon ~ p,
+  .feature .feature__icon ~ .feature__link {
+    margin-left: 0;
+  }
+}
+.feature__image {
+  width: 70px;
+  height: 70px;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border-radius: 100%;
+  display: block;
+  text-align: center;
+  margin: 0 25px 0 0;
+  float: left;
+}
+.feature__image img {
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border-radius: 100%;
+}

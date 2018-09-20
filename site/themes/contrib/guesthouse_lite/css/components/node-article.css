@@ -1,0 +1,55 @@
+/**
+ * @file
+ * Visual styles for GuestHouse+'s article content type.
+ */
+.node--type-article .node__meta {
+  margin-bottom: 0;
+  font-size: 15px;
+}
+.node--type-article .node__header {
+  margin-bottom: 1em;
+}
+.node--type-article .node__meta .inline-list {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.page-node-type-article .page-title {
+  margin-bottom: 10px;
+}
+
+/* article layout */
+@media (min-width: 1360px) {
+  .node--type-article .node__side {
+    display: none;
+    position: fixed;
+    left: 10px;
+    top: 50%;
+    margin-top: -150px;
+    width: 75px;
+    min-height: 1px;
+  }
+  .js-node-meta-fixed .node__side {
+    display: block;
+  }
+}
+@media (max-width: 1359px) {
+  .node--type-article .node__side {
+    float: left;
+    width: 75px;
+    padding-right: 20px;
+    min-height: 1px;
+  }
+  .node--type-article .node__side + .node__main-content {
+    overflow: hidden;
+  }  
+}
+@media (max-width: 480px) {
+  .node--type-article .node__side {
+    margin-top: 10px;
+  }
+}
+
+/*article side styling*/
+.node--type-article .node__side .user-picture {
+  margin-bottom: 20px;
+}

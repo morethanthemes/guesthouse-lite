@@ -1,0 +1,29 @@
+/**
+ * @file
+ * Visual styles for GuestHouse+'s fullwidth static block (with image and call-to-action text).
+ */
+.fullwidth-section-text {
+  width: calc(100% - 100px);
+  margin: 0 auto;
+}
+@media (min-width: 992px) {
+  .fullwidth-section-text h3 {
+    padding-top: calc(100%/15);
+    padding-bottom: calc(100%/20);
+    margin: 0;
+  }
+  .fullwidth-section-text p {
+    padding-bottom: 20px;
+  }
+}
+@media (min-width: 1200px) {
+  .fullwidth-section-text h3 {
+    padding-top: calc(100%/6);
+    margin: 0;
+  }
+}
+@media (max-width: 991px) {
+  .fullwidth-section-text {
+    padding: 50px 0;
+  }
+}
