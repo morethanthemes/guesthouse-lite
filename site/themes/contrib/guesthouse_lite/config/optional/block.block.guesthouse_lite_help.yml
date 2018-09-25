@@ -5,12 +5,10 @@ dependencies:
     - help
   theme:
     - guesthouse_lite
-_core:
-  default_config_hash: 8I8iACSa0sKO3k3jlvUG1ge52rfcKX7USJAQYnzuBgg
 id: guesthouse_lite_help
 theme: guesthouse_lite
 region: content
-weight: -7
+weight: -10
 provider: null
 plugin: help_block
 settings:

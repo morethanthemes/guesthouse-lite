@@ -5,8 +5,6 @@ dependencies:
     - system
   theme:
     - guesthouse_lite
-_core:
-  default_config_hash: KHQIJ7Vfl25lTjzIc7qIvnuistt-Mw2O0kG4jCofmkI
 id: guesthouse_lite_messages
 theme: guesthouse_lite
 region: system_messages

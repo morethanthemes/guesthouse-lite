@@ -7,8 +7,6 @@ dependencies:
     - system
   theme:
     - guesthouse_lite
-_core:
-  default_config_hash: rx9IrdDv7Ldc4kpalZAxdhIPZfYIeOMh1N-qKoQZwHo
 id: guesthouse_lite_main_menu
 theme: guesthouse_lite
 region: header

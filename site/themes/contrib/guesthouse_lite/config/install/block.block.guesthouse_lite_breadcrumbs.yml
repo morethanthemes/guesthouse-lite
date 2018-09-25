@@ -5,8 +5,6 @@ dependencies:
     - system
   theme:
     - guesthouse_lite
-_core:
-  default_config_hash: oXUb3JZR2WW5VOdw4HrhRicCsq51mCgLfRyvheG68ck
 id: guesthouse_lite_breadcrumbs
 theme: guesthouse_lite
 region: content_top
