@@ -2,7 +2,7 @@ name: GuestHouse Lite
 type: theme
 base theme: classy
 description: 'A flexible, recolorable theme with many regions and a responsive, mobile-first layout.'
-# core: 8.x
+core_version_requirement: ^8 || ^9
 libraries:
   - guesthouse_lite/fontawesome
   - guesthouse_lite/global-styling

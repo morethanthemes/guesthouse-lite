@@ -3,18 +3,23 @@
 namespace Drupal\Tests\contextual\Functional;
 
 use Drupal\Component\Serialization\Json;
+use Drupal\Component\Utility\Crypt;
+use Drupal\Core\Site\Settings;
 use Drupal\Core\Url;
 use Drupal\language\Entity\ConfigurableLanguage;
-use Drupal\Core\Template\Attribute;
 use Drupal\Tests\BrowserTestBase;
 
 /**
- * Tests if contextual links are showing on the front page depending on
- * permissions.
+ * Tests contextual link display on the front page based on permissions.
  *
  * @group contextual
  */
 class ContextualDynamicContextTest extends BrowserTestBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stark';
 
   /**
    * A user with permission to access contextual links and edit content.
@@ -42,9 +47,19 @@ class ContextualDynamicContextTest extends BrowserTestBase {
    *
    * @var array
    */
-  public static $modules = ['contextual', 'node', 'views', 'views_ui', 'language', 'menu_test'];
+  protected static $modules = [
+    'contextual',
+    'node',
+    'views',
+    'views_ui',
+    'language',
+    'menu_test',
+  ];
 
-  protected function setUp() {
+  /**
+   * {@inheritdoc}
+   */
+  protected function setUp(): void {
     parent::setUp();
 
     $this->drupalCreateContentType(['type' => 'page', 'name' => 'Basic page']);
@@ -53,8 +68,15 @@ class ContextualDynamicContextTest extends BrowserTestBase {
     ConfigurableLanguage::createFromLangcode('it')->save();
     $this->rebuildContainer();
 
-    $this->editorUser = $this->drupalCreateUser(['access content', 'access contextual links', 'edit any article content']);
-    $this->authenticatedUser = $this->drupalCreateUser(['access content', 'access contextual links']);
+    $this->editorUser = $this->drupalCreateUser([
+      'access content',
+      'access contextual links',
+      'edit any article content',
+    ]);
+    $this->authenticatedUser = $this->drupalCreateUser([
+      'access content',
+      'access contextual links',
+    ]);
     $this->anonymousUser = $this->drupalCreateUser(['access content']);
   }
 
@@ -91,14 +113,14 @@ class ContextualDynamicContextTest extends BrowserTestBase {
     }
     $response = $this->renderContextualLinks([], 'node');
     $this->assertSame(400, $response->getStatusCode());
-    $this->assertContains('No contextual ids specified.', (string) $response->getBody());
+    $this->assertStringContainsString('No contextual ids specified.', (string) $response->getBody());
     $response = $this->renderContextualLinks($ids, 'node');
     $this->assertSame(200, $response->getStatusCode());
     $json = Json::decode((string) $response->getBody());
-    $this->assertIdentical($json[$ids[0]], '<ul class="contextual-links"><li class="entitynodeedit-form"><a href="' . base_path() . 'node/1/edit">Edit</a></li></ul>');
-    $this->assertIdentical($json[$ids[1]], '');
-    $this->assertIdentical($json[$ids[2]], '<ul class="contextual-links"><li class="entitynodeedit-form"><a href="' . base_path() . 'node/3/edit">Edit</a></li></ul>');
-    $this->assertIdentical($json[$ids[3]], '');
+    $this->assertSame('<ul class="contextual-links"><li><a href="' . base_path() . 'node/1/edit">Edit</a></li></ul>', $json[$ids[0]]);
+    $this->assertSame('', $json[$ids[1]]);
+    $this->assertSame('<ul class="contextual-links"><li><a href="' . base_path() . 'node/3/edit">Edit</a></li></ul>', $json[$ids[2]]);
+    $this->assertSame('', $json[$ids[3]]);
 
     // Verify that link language is properly handled.
     $node3->addTranslation('it')->set('title', $this->randomString())->save();
@@ -114,14 +136,14 @@ class ContextualDynamicContextTest extends BrowserTestBase {
     }
     $response = $this->renderContextualLinks([], 'node');
     $this->assertSame(400, $response->getStatusCode());
-    $this->assertContains('No contextual ids specified.', (string) $response->getBody());
+    $this->assertStringContainsString('No contextual ids specified.', (string) $response->getBody());
     $response = $this->renderContextualLinks($ids, 'node');
     $this->assertSame(200, $response->getStatusCode());
     $json = Json::decode((string) $response->getBody());
-    $this->assertIdentical($json[$ids[0]], '');
-    $this->assertIdentical($json[$ids[1]], '');
-    $this->assertIdentical($json[$ids[2]], '');
-    $this->assertIdentical($json[$ids[3]], '');
+    $this->assertSame('', $json[$ids[0]]);
+    $this->assertSame('', $json[$ids[1]]);
+    $this->assertSame('', $json[$ids[2]]);
+    $this->assertSame('', $json[$ids[3]]);
 
     // Anonymous user: cannot access contextual links.
     $this->drupalLogin($this->anonymousUser);
@@ -136,8 +158,70 @@ class ContextualDynamicContextTest extends BrowserTestBase {
 
     // Get a page where contextual links are directly rendered.
     $this->drupalGet(Url::fromRoute('menu_test.contextual_test'));
-    $this->assertEscaped("<script>alert('Welcome to the jungle!')</script>");
-    $this->assertRaw('<li class="menu-testcontextual-hidden-manage-edit"><a href="' . base_path() . 'menu-test-contextual/1/edit" class="use-ajax" data-dialog-type="modal" data-is-something>Edit menu - contextual</a></li>');
+    $this->assertSession()->assertEscaped("<script>alert('Welcome to the jungle!')</script>");
+    $this->assertSession()->responseContains('<li><a href="' . base_path() . 'menu-test-contextual/1/edit" class="use-ajax" data-dialog-type="modal" data-is-something>Edit menu - contextual</a></li>');
+    // Test contextual links respects the weight set in *.links.contextual.yml.
+    $firstLink = $this->assertSession()->elementExists('css', 'ul.contextual-links li:nth-of-type(1) a');
+    $secondLink = $this->assertSession()->elementExists('css', 'ul.contextual-links li:nth-of-type(2) a');
+    $this->assertEquals(base_path() . 'menu-test-contextual/1/edit', $firstLink->getAttribute('href'));
+    $this->assertEquals(base_path() . 'menu-test-contextual/1', $secondLink->getAttribute('href'));
+  }
+
+  /**
+   * Tests the contextual placeholder content is protected by a token.
+   */
+  public function testTokenProtection() {
+    $this->drupalLogin($this->editorUser);
+
+    // Create a node that will have a contextual link.
+    $node1 = $this->drupalCreateNode(['type' => 'article', 'promote' => 1]);
+
+    // Now, on the front page, all article nodes should have contextual links
+    // placeholders, as should the view that contains them.
+    $id = 'node:node=' . $node1->id() . ':changed=' . $node1->getChangedTime() . '&langcode=en';
+
+    // Editor user: can access contextual links and can edit articles.
+    $this->drupalGet('node');
+    $this->assertContextualLinkPlaceHolder($id);
+
+    $http_client = $this->getHttpClient();
+    $url = Url::fromRoute('contextual.render', [], [
+      'query' => [
+        '_format' => 'json',
+        'destination' => 'node',
+      ],
+    ])->setAbsolute()->toString();
+
+    $response = $http_client->request('POST', $url, [
+      'cookies' => $this->getSessionCookies(),
+      'form_params' => ['ids' => [$id], 'tokens' => []],
+      'http_errors' => FALSE,
+    ]);
+    $this->assertEquals('400', $response->getStatusCode());
+    $this->assertStringContainsString('No contextual ID tokens specified.', (string) $response->getBody());
+
+    $response = $http_client->request('POST', $url, [
+      'cookies' => $this->getSessionCookies(),
+      'form_params' => ['ids' => [$id], 'tokens' => ['wrong_token']],
+      'http_errors' => FALSE,
+    ]);
+    $this->assertEquals('400', $response->getStatusCode());
+    $this->assertStringContainsString('Invalid contextual ID specified.', (string) $response->getBody());
+
+    $response = $http_client->request('POST', $url, [
+      'cookies' => $this->getSessionCookies(),
+      'form_params' => ['ids' => [$id], 'tokens' => ['wrong_key' => $this->createContextualIdToken($id)]],
+      'http_errors' => FALSE,
+    ]);
+    $this->assertEquals('400', $response->getStatusCode());
+    $this->assertStringContainsString('Invalid contextual ID specified.', (string) $response->getBody());
+
+    $response = $http_client->request('POST', $url, [
+      'cookies' => $this->getSessionCookies(),
+      'form_params' => ['ids' => [$id], 'tokens' => [$this->createContextualIdToken($id)]],
+      'http_errors' => FALSE,
+    ]);
+    $this->assertEquals('200', $response->getStatusCode());
   }
 
   /**
@@ -146,11 +230,15 @@ class ContextualDynamicContextTest extends BrowserTestBase {
    * @param string $id
    *   A contextual link id.
    *
-   * @return bool
-   *   The result of the assertion.
+   * @internal
    */
-  protected function assertContextualLinkPlaceHolder($id) {
-    return $this->assertRaw('<div' . new Attribute(['data-contextual-id' => $id]) . '></div>', format_string('Contextual link placeholder with id @id exists.', ['@id' => $id]));
+  protected function assertContextualLinkPlaceHolder(string $id): void {
+    $this->assertSession()->elementAttributeContains(
+      'css',
+      'div[data-contextual-id="' . $id . '"]',
+      'data-contextual-token',
+      $this->createContextualIdToken($id)
+    );
   }
 
   /**
@@ -159,11 +247,10 @@ class ContextualDynamicContextTest extends BrowserTestBase {
    * @param string $id
    *   A contextual link id.
    *
-   * @return bool
-   *   The result of the assertion.
+   * @internal
    */
-  protected function assertNoContextualLinkPlaceHolder($id) {
-    return $this->assertNoRaw('<div' . new Attribute(['data-contextual-id' => $id]) . '></div>', format_string('Contextual link placeholder with id @id does not exist.', ['@id' => $id]));
+  protected function assertNoContextualLinkPlaceHolder(string $id): void {
+    $this->assertSession()->elementNotExists('css', 'div[data-contextual-id="' . $id . '"]');
   }
 
   /**
@@ -178,6 +265,7 @@ class ContextualDynamicContextTest extends BrowserTestBase {
    *   The response object.
    */
   protected function renderContextualLinks($ids, $current_path) {
+    $tokens = array_map([$this, 'createContextualIdToken'], $ids);
     $http_client = $this->getHttpClient();
     $url = Url::fromRoute('contextual.render', [], [
       'query' => [
@@ -188,9 +276,22 @@ class ContextualDynamicContextTest extends BrowserTestBase {
 
     return $http_client->request('POST', $this->buildUrl($url), [
       'cookies' => $this->getSessionCookies(),
-      'form_params' => ['ids' => $ids],
+      'form_params' => ['ids' => $ids, 'tokens' => $tokens],
       'http_errors' => FALSE,
     ]);
+  }
+
+  /**
+   * Creates a contextual ID token.
+   *
+   * @param string $id
+   *   The contextual ID to create a token for.
+   *
+   * @return string
+   *   The contextual ID token.
+   */
+  protected function createContextualIdToken($id) {
+    return Crypt::hmacBase64($id, Settings::getHashSalt() . $this->container->get('private_key')->get());
   }
 
 }

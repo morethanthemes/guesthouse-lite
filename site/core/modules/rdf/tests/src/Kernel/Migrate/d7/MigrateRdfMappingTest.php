@@ -2,20 +2,21 @@
 
 namespace Drupal\Tests\rdf\Kernel\Migrate\d7;
 
+use Drupal\Tests\migrate_drupal\Kernel\MigrateDrupalTestBase;
 use Drupal\rdf\RdfMappingInterface;
-use Drupal\Tests\migrate_drupal\Kernel\d7\MigrateDrupal7TestBase;
 
 /**
  * Tests RDF mappings migration from Drupal 7 to 8.
  *
  * @group rdf
+ * @group legacy
  */
-class MigrateRdfMappingTest extends MigrateDrupal7TestBase {
+class MigrateRdfMappingTest extends MigrateDrupalTestBase {
 
   /**
    * {@inheritdoc}
    */
-  public static $modules = [
+  protected static $modules = [
     'menu_ui',
     'node',
     'rdf',
@@ -26,9 +27,10 @@ class MigrateRdfMappingTest extends MigrateDrupal7TestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
+    $this->loadFixture(__DIR__ . '/../../../../fixtures/drupal7.php');
     $this->installConfig(static::$modules);
 
     $this->executeMigrations([
@@ -49,8 +51,10 @@ class MigrateRdfMappingTest extends MigrateDrupal7TestBase {
    *   The expected RDF types.
    * @param array[] $field_mappings
    *   The expected RDF field mappings.
+   *
+   * @internal
    */
-  protected function assertRdfMapping($entity_type, $bundle, $types, $field_mappings) {
+  protected function assertRdfMapping(string $entity_type, string $bundle, array $types, array $field_mappings): void {
     $rdf_mapping = rdf_get_mapping($entity_type, $bundle);
     $this->assertInstanceOf(RdfMappingInterface::class, $rdf_mapping);
     $this->assertSame($types, $rdf_mapping->getBundleMapping());
@@ -98,7 +102,7 @@ class MigrateRdfMappingTest extends MigrateDrupal7TestBase {
           ],
           'datatype' => 'xsd:dateTime',
           'datatype_callback' => [
-            'callable' => 'date_iso8601',
+            'callable' => 'Drupal\rdf\CommonDataConverter::dateIso8601Value',
           ],
         ],
         'changed' => [
@@ -107,7 +111,7 @@ class MigrateRdfMappingTest extends MigrateDrupal7TestBase {
           ],
           'datatype' => 'xsd:dateTime',
           'datatype_callback' => [
-            'callable' => 'date_iso8601',
+            'callable' => 'Drupal\rdf\CommonDataConverter::dateIso8601Value',
           ],
         ],
         'body' => [
@@ -138,7 +142,7 @@ class MigrateRdfMappingTest extends MigrateDrupal7TestBase {
           ],
           'datatype' => 'xsd:dateTime',
           'datatype_callback' => [
-            'callable' => 'date_iso8601',
+            'callable' => 'Drupal\rdf\CommonDataConverter::dateIso8601Value',
           ],
         ],
       ]
@@ -165,7 +169,7 @@ class MigrateRdfMappingTest extends MigrateDrupal7TestBase {
           ],
           'datatype' => 'xsd:dateTime',
           'datatype_callback' => [
-            'callable' => 'date_iso8601',
+            'callable' => 'Drupal\rdf\CommonDataConverter::dateIso8601Value',
           ],
         ],
         'changed' => [
@@ -174,7 +178,7 @@ class MigrateRdfMappingTest extends MigrateDrupal7TestBase {
           ],
           'datatype' => 'xsd:dateTime',
           'datatype_callback' => [
-            'callable' => 'date_iso8601',
+            'callable' => 'Drupal\rdf\CommonDataConverter::dateIso8601Value',
           ],
         ],
         'body' => [
@@ -205,7 +209,7 @@ class MigrateRdfMappingTest extends MigrateDrupal7TestBase {
           ],
           'datatype' => 'xsd:dateTime',
           'datatype_callback' => [
-            'callable' => 'date_iso8601',
+            'callable' => 'Drupal\rdf\CommonDataConverter::dateIso8601Value',
           ],
         ],
       ]
@@ -238,7 +242,7 @@ class MigrateRdfMappingTest extends MigrateDrupal7TestBase {
           ],
           'datatype' => 'xsd:dateTime',
           'datatype_callback' => [
-            'callable' => 'date_iso8601',
+            'callable' => 'Drupal\rdf\CommonDataConverter::dateIso8601Value',
           ],
         ],
         'changed' => [
@@ -247,7 +251,7 @@ class MigrateRdfMappingTest extends MigrateDrupal7TestBase {
           ],
           'datatype' => 'xsd:dateTime',
           'datatype_callback' => [
-            'callable' => 'date_iso8601',
+            'callable' => 'Drupal\rdf\CommonDataConverter::dateIso8601Value',
           ],
         ],
         'body' => [
@@ -278,7 +282,7 @@ class MigrateRdfMappingTest extends MigrateDrupal7TestBase {
           ],
           'datatype' => 'xsd:dateTime',
           'datatype_callback' => [
-            'callable' => 'date_iso8601',
+            'callable' => 'Drupal\rdf\CommonDataConverter::dateIso8601Value',
           ],
         ],
       ]
@@ -304,7 +308,7 @@ class MigrateRdfMappingTest extends MigrateDrupal7TestBase {
           ],
           'datatype' => 'xsd:dateTime',
           'datatype_callback' => [
-            'callable' => 'date_iso8601',
+            'callable' => 'Drupal\rdf\CommonDataConverter::dateIso8601Value',
           ],
         ],
         'changed' => [
@@ -313,7 +317,7 @@ class MigrateRdfMappingTest extends MigrateDrupal7TestBase {
           ],
           'datatype' => 'xsd:dateTime',
           'datatype_callback' => [
-            'callable' => 'date_iso8601',
+            'callable' => 'Drupal\rdf\CommonDataConverter::dateIso8601Value',
           ],
         ],
         'body' => [
@@ -344,7 +348,7 @@ class MigrateRdfMappingTest extends MigrateDrupal7TestBase {
           ],
           'datatype' => 'xsd:dateTime',
           'datatype_callback' => [
-            'callable' => 'date_iso8601',
+            'callable' => 'Drupal\rdf\CommonDataConverter::dateIso8601Value',
           ],
         ],
       ]
@@ -384,6 +388,12 @@ class MigrateRdfMappingTest extends MigrateDrupal7TestBase {
         ],
       ]
     );
+
+    // Clear the map table and check that the migration runs successfully when
+    // the rdf mappings already exist.
+    $id_map = $this->getMigration('d7_rdf_mapping')->getIdMap();
+    $id_map->destroy();
+    $this->executeMigration('d7_rdf_mapping');
   }
 
 }

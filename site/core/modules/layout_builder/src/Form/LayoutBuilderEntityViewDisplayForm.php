@@ -7,15 +7,14 @@ use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\field_ui\Form\EntityViewDisplayEditForm;
 use Drupal\layout_builder\Entity\LayoutEntityDisplayInterface;
+use Drupal\layout_builder\Plugin\SectionStorage\OverridesSectionStorage;
 use Drupal\layout_builder\SectionStorageInterface;
 
 /**
  * Edit form for the LayoutBuilderEntityViewDisplay entity type.
  *
  * @internal
- *   Layout Builder is currently experimental and should only be leveraged by
- *   experimental modules and development releases of contributed modules.
- *   See https://www.drupal.org/core/experimental for more information.
+ *   Form classes are internal.
  */
 class LayoutBuilderEntityViewDisplayForm extends EntityViewDisplayEditForm {
 
@@ -47,16 +46,16 @@ class LayoutBuilderEntityViewDisplayForm extends EntityViewDisplayEditForm {
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
 
+    // Remove the Layout Builder field from the list.
+    $form['#fields'] = array_diff($form['#fields'], [OverridesSectionStorage::FIELD_NAME]);
+    unset($form['fields'][OverridesSectionStorage::FIELD_NAME]);
+
     $is_enabled = $this->entity->isLayoutBuilderEnabled();
     if ($is_enabled) {
       // Hide the table of fields.
       $form['fields']['#access'] = FALSE;
       $form['#fields'] = [];
       $form['#extra'] = [];
-    }
-    else {
-      // Remove the Layout Builder field from the list.
-      $form['#fields'] = array_diff($form['#fields'], ['layout_builder__layout']);
     }
 
     $form['manage_layout'] = [
@@ -84,7 +83,7 @@ class LayoutBuilderEntityViewDisplayForm extends EntityViewDisplayEditForm {
 
     // @todo Expand to work for all view modes in
     //   https://www.drupal.org/node/2907413.
-    if ($this->entity->getMode() === 'default') {
+    if ($this->isCanonicalMode($this->entity->getMode())) {
       $entity_type = $this->entityTypeManager->getDefinition($this->entity->getTargetEntityTypeId());
       $form['layout']['allow_custom'] = [
         '#type' => 'checkbox',
@@ -114,7 +113,45 @@ class LayoutBuilderEntityViewDisplayForm extends EntityViewDisplayEditForm {
         unset($form['#entity_builders']['layout_builder']);
       }
     }
+    // For non-canonical modes, the existing value should be preserved.
+    else {
+      $form['layout']['allow_custom'] = [
+        '#type' => 'value',
+        '#value' => $this->entity->isOverridable(),
+      ];
+    }
     return $form;
+  }
+
+  /**
+   * Determines if the mode is used by the canonical route.
+   *
+   * @param string $mode
+   *   The view mode.
+   *
+   * @return bool
+   *   TRUE if the mode is valid, FALSE otherwise.
+   */
+  protected function isCanonicalMode($mode) {
+    // @todo This is a convention core uses but is not a given, nor is it easily
+    //   introspectable. Address in https://www.drupal.org/node/2907413.
+    $canonical_mode = 'full';
+
+    if ($mode === $canonical_mode) {
+      return TRUE;
+    }
+
+    // The default mode is valid if the canonical mode is not enabled.
+    if ($mode === 'default') {
+      $query = $this->entityTypeManager->getStorage($this->entity->getEntityTypeId())->getQuery()
+        ->condition('targetEntityType', $this->entity->getTargetEntityTypeId())
+        ->condition('bundle', $this->entity->getTargetBundle())
+        ->condition('status', TRUE)
+        ->condition('mode', $canonical_mode);
+      return !$query->count()->execute();
+    }
+
+    return FALSE;
   }
 
   /**
@@ -133,7 +170,8 @@ class LayoutBuilderEntityViewDisplayForm extends EntityViewDisplayEditForm {
 
     $entity_type = $this->entityTypeManager->getDefinition($display->getTargetEntityTypeId());
     $query = $this->entityTypeManager->getStorage($display->getTargetEntityTypeId())->getQuery()
-      ->exists('layout_builder__layout');
+      ->accessCheck(FALSE)
+      ->exists(OverridesSectionStorage::FIELD_NAME);
     if ($bundle_key = $entity_type->getKey('bundle')) {
       $query->condition($bundle_key, $display->getTargetBundle());
     }
@@ -180,7 +218,7 @@ class LayoutBuilderEntityViewDisplayForm extends EntityViewDisplayEditForm {
    * {@inheritdoc}
    */
   protected function buildFieldRow(FieldDefinitionInterface $field_definition, array $form, FormStateInterface $form_state) {
-    if ($this->entity->isLayoutBuilderEnabled() || $field_definition->getType() === 'layout_section') {
+    if ($this->entity->isLayoutBuilderEnabled()) {
       return [];
     }
 

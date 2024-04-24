@@ -26,14 +26,12 @@ abstract class InlineBlockTestBase extends WebDriverTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = [
+  protected static $modules = [
     'block_content',
     'layout_builder',
     'block',
     'node',
     'contextual',
-    // @todo Remove after https://www.drupal.org/project/drupal/issues/2901792.
-    'no_transitions_css',
   ];
 
   /**
@@ -48,8 +46,7 @@ abstract class InlineBlockTestBase extends WebDriverTestBase {
    */
   protected function setUp() {
     parent::setUp();
-    // @todo The Layout Builder UI relies on local tasks; fix in
-    //   https://www.drupal.org/project/drupal/issues/2917777.
+
     $this->drupalPlaceBlock('local_tasks_block');
 
     $this->createContentType(['type' => 'bundle_with_section_field', 'new_revision' => TRUE]);
@@ -71,13 +68,7 @@ abstract class InlineBlockTestBase extends WebDriverTestBase {
         ],
       ],
     ]);
-    $bundle = BlockContentType::create([
-      'id' => 'basic',
-      'label' => 'Basic block',
-      'revision' => 1,
-    ]);
-    $bundle->save();
-    block_content_add_body_field($bundle->id());
+    $this->createBlockContentType('basic', 'Basic block');
 
     $this->blockStorage = $this->container->get('entity_type.manager')->getStorage('block_content');
   }
@@ -87,13 +78,11 @@ abstract class InlineBlockTestBase extends WebDriverTestBase {
    */
   protected function assertSaveLayout() {
     $assert_session = $this->assertSession();
-    $assert_session->linkExists('Save Layout');
-    // Go to the Save Layout page. Currently there are random test failures if
-    // 'clickLink()' is used.
-    // @todo Convert tests that extend this class to NightWatch tests in
-    // https://www.drupal.org/node/2984161
-    $link = $this->getSession()->getPage()->findLink('Save Layout');
-    $this->drupalGet($link->getAttribute('href'));
+    $page = $this->getSession()->getPage();
+
+    // Reload the page to prevent random failures.
+    $this->drupalGet($this->getUrl());
+    $page->pressButton('Save layout');
     $this->assertNotEmpty($assert_session->waitForElement('css', '.messages--status'));
 
     if (stristr($this->getUrl(), 'admin/structure') === FALSE) {
@@ -108,7 +97,11 @@ abstract class InlineBlockTestBase extends WebDriverTestBase {
    * Gets the latest block entity id.
    */
   protected function getLatestBlockEntityId() {
-    $block_ids = \Drupal::entityQuery('block_content')->sort('id', 'DESC')->range(0, 1)->execute();
+    $block_ids = \Drupal::entityQuery('block_content')
+      ->accessCheck(FALSE)
+      ->sort('id', 'DESC')
+      ->range(0, 1)
+      ->execute();
     $block_id = array_pop($block_ids);
     $this->assertNotEmpty($this->blockStorage->load($block_id));
     return $block_id;
@@ -127,8 +120,8 @@ abstract class InlineBlockTestBase extends WebDriverTestBase {
     $assert_session->waitForElement('css', "#drupal-off-canvas input[value='Remove']");
     $assert_session->assertWaitOnAjaxRequest();
     $page->find('css', '#drupal-off-canvas')->pressButton('Remove');
-    $this->waitForNoElement('#drupal-off-canvas');
-    $this->waitForNoElement(static::INLINE_BLOCK_LOCATOR);
+    $assert_session->assertNoElementAfterWait('css', '#drupal-off-canvas');
+    $assert_session->assertNoElementAfterWait('css', static::INLINE_BLOCK_LOCATOR);
     $assert_session->assertWaitOnAjaxRequest();
     $assert_session->pageTextNotContains($block_text);
   }
@@ -144,17 +137,17 @@ abstract class InlineBlockTestBase extends WebDriverTestBase {
   protected function addInlineBlockToLayout($title, $body) {
     $assert_session = $this->assertSession();
     $page = $this->getSession()->getPage();
-    $page->clickLink('Add Block');
+    $page->clickLink('Add block');
     $assert_session->assertWaitOnAjaxRequest();
-    $this->assertNotEmpty($assert_session->waitForElementVisible('css', '.block-categories details:contains(Create new block)'));
-    $this->clickLink('Basic block');
+    $this->assertNotEmpty($assert_session->waitForLink('Create custom block'));
+    $this->clickLink('Create custom block');
     $assert_session->assertWaitOnAjaxRequest();
     $textarea = $assert_session->waitForElement('css', '[name="settings[block_form][body][0][value]"]');
     $this->assertNotEmpty($textarea);
     $assert_session->fieldValueEquals('Title', '');
     $page->findField('Title')->setValue($title);
     $textarea->setValue($body);
-    $page->pressButton('Add Block');
+    $page->pressButton('Add block');
     $this->assertDialogClosedAndTextVisible($body, static::INLINE_BLOCK_LOCATOR);
   }
 
@@ -178,24 +171,9 @@ abstract class InlineBlockTestBase extends WebDriverTestBase {
     $this->assertSame($old_body, $textarea->getValue());
     $textarea->setValue($new_body);
     $page->pressButton('Update');
-    $this->waitForNoElement('#drupal-off-canvas');
+    $assert_session->assertNoElementAfterWait('css', '#drupal-off-canvas');
     $assert_session->assertWaitOnAjaxRequest();
     $this->assertDialogClosedAndTextVisible($new_body);
-  }
-
-  /**
-   * Waits for an element to be removed from the page.
-   *
-   * @param string $selector
-   *   CSS selector.
-   * @param int $timeout
-   *   (optional) Timeout in milliseconds, defaults to 10000.
-   *
-   * @todo Remove in https://www.drupal.org/node/2892440.
-   */
-  protected function waitForNoElement($selector, $timeout = 10000) {
-    $condition = "(typeof jQuery !== 'undefined' && jQuery('$selector').length === 0)";
-    $this->assertJsCondition($condition, $timeout);
   }
 
   /**
@@ -208,7 +186,7 @@ abstract class InlineBlockTestBase extends WebDriverTestBase {
    */
   protected function assertDialogClosedAndTextVisible($text, $css_locator = NULL) {
     $assert_session = $this->assertSession();
-    $this->waitForNoElement('#drupal-off-canvas');
+    $assert_session->assertNoElementAfterWait('css', '#drupal-off-canvas');
     $assert_session->assertWaitOnAjaxRequest();
     $assert_session->elementNotExists('css', '#drupal-off-canvas');
     if ($css_locator) {
@@ -217,6 +195,24 @@ abstract class InlineBlockTestBase extends WebDriverTestBase {
     else {
       $this->assertNotEmpty($assert_session->waitForElementVisible('css', ".dialog-off-canvas-main-canvas:contains('$text')"));
     }
+  }
+
+  /**
+   * Creates a block content type.
+   *
+   * @param string $id
+   *   The block type id.
+   * @param string $label
+   *   The block type label.
+   */
+  protected function createBlockContentType($id, $label) {
+    $bundle = BlockContentType::create([
+      'id' => $id,
+      'label' => $label,
+      'revision' => 1,
+    ]);
+    $bundle->save();
+    block_content_add_body_field($bundle->id());
   }
 
 }
