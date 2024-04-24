@@ -24,7 +24,7 @@ class MigrateDrupal7AuditIdsTest extends MigrateDrupal7TestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     // Enable all modules.
     self::$modules = array_keys($this->coreModuleListDataProvider());
     parent::setUp();
@@ -33,18 +33,23 @@ class MigrateDrupal7AuditIdsTest extends MigrateDrupal7TestBase {
     $this->installEntitySchemas();
 
     // Install required schemas.
+    // @todo Remove book in https://www.drupal.org/project/drupal/issues/3376101
     $this->installSchema('book', ['book']);
     $this->installSchema('dblog', ['watchdog']);
+    // @todo Remove forum in https://www.drupal.org/project/drupal/issues/3261653
     $this->installSchema('forum', ['forum_index']);
     $this->installSchema('node', ['node_access']);
     $this->installSchema('search', ['search_dataset']);
-    $this->installSchema('system', ['sequences']);
+    // @todo Remove tracker in https://www.drupal.org/project/drupal/issues/3261452
     $this->installSchema('tracker', ['tracker_node', 'tracker_user']);
 
     // Enable content moderation for nodes of type page.
     $this->installEntitySchema('content_moderation_state');
     $this->installConfig('content_moderation');
-    NodeType::create(['type' => 'page'])->save();
+    NodeType::create([
+      'type' => 'page',
+      'name' => 'Page',
+    ])->save();
     $workflow = $this->createEditorialWorkflow();
     $workflow->getTypePlugin()->addEntityTypeAndBundle('node', 'page');
     $workflow->save();
@@ -59,7 +64,7 @@ class MigrateDrupal7AuditIdsTest extends MigrateDrupal7TestBase {
     $node->moderation_state->value = 'published';
     $node->save();
 
-    // Insert data in the d7_node:page migration mappping table to simulate a
+    // Insert data in the d7_node:page migration mapping table to simulate a
     // previously migrated node.
     $id_map = $this->getMigration('d7_node:page')->getIdMap();
     $table_name = $id_map->mapTableName();
@@ -127,14 +132,13 @@ class MigrateDrupal7AuditIdsTest extends MigrateDrupal7TestBase {
     );
 
     $expected = [
-      'd7_aggregator_feed',
-      'd7_aggregator_item',
       'd7_comment',
       'd7_custom_block',
       'd7_file',
       'd7_file_private',
       'd7_menu_links',
       'd7_node',
+      'd7_node_complete',
       'd7_node_revision',
       'd7_taxonomy_term',
       'd7_user',
@@ -157,8 +161,8 @@ class MigrateDrupal7AuditIdsTest extends MigrateDrupal7TestBase {
     $node->setNewRevision(TRUE);
     $node->save();
 
-    // Insert data in the d7_node_revision:page migration mappping table to
-    // simulate a previously migrated node revison.
+    // Insert data in the d7_node_revision:page migration mapping table to
+    // simulate a previously migrated node revision.
     $id_map = $this->getMigration('d7_node_revision:page')->getIdMap();
     $table_name = $id_map->mapTableName();
     $id_map->getDatabase()->insert($table_name)

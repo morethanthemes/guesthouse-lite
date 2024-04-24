@@ -184,11 +184,16 @@ class EntityOperations implements ContainerInjectionInterface {
     // Sync translations.
     if ($entity->getEntityType()->hasKey('langcode')) {
       $entity_langcode = $entity->language()->getId();
-      if (!$content_moderation_state->hasTranslation($entity_langcode)) {
-        $content_moderation_state->addTranslation($entity_langcode);
+      if ($entity->isDefaultTranslation()) {
+        $content_moderation_state->langcode = $entity_langcode;
       }
-      if ($content_moderation_state->language()->getId() !== $entity_langcode) {
-        $content_moderation_state = $content_moderation_state->getTranslation($entity_langcode);
+      else {
+        if (!$content_moderation_state->hasTranslation($entity_langcode)) {
+          $content_moderation_state->addTranslation($entity_langcode);
+        }
+        if ($content_moderation_state->language()->getId() !== $entity_langcode) {
+          $content_moderation_state = $content_moderation_state->getTranslation($entity_langcode);
+        }
       }
     }
 
@@ -230,10 +235,11 @@ class EntityOperations implements ContainerInjectionInterface {
    * @see hook_entity_revision_delete()
    */
   public function entityRevisionDelete(EntityInterface $entity) {
-    /** @var \Drupal\Core\Entity\ContentEntityInterface $entity */
-    if (!$entity->isDefaultRevision()) {
-      $content_moderation_state = ContentModerationStateEntity::loadFromModeratedEntity($entity);
-      if ($content_moderation_state) {
+    if ($content_moderation_state = ContentModerationStateEntity::loadFromModeratedEntity($entity)) {
+      if ($content_moderation_state->isDefaultRevision()) {
+        $content_moderation_state->delete();
+      }
+      else {
         $this->entityTypeManager
           ->getStorage('content_moderation_state')
           ->deleteRevision($content_moderation_state->getRevisionId());

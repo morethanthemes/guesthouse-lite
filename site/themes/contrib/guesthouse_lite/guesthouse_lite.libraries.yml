@@ -75,7 +75,6 @@ global-styling:
       css/components/username.css: {}
       css/components/views.css: {}
       css/components/view-promoted-items.css: {}
-      css/components/icon-features.css: {}
       css/components/flexslider.css: {}
       css/components/background-image-block.css: {}
       css/components/view-benefits-grid.css: {}
@@ -115,7 +114,7 @@ transparent-header:
     - core/jquery
     - core/drupalSettings
     - core/drupal
-    - core/jquery.once
+    - core/once
 
 inverted-header:
   version: VERSION
@@ -164,7 +163,7 @@ waypoints:
   dependencies:
     - core/jquery
     - core/drupal
-    - core/jquery.once
+    - core/once
 
 waypoints-sticky:
   version: 4.0.1
@@ -197,7 +196,7 @@ magnific-popup:
   dependencies:
     - core/jquery
     - core/drupal
-    - core/jquery.once
+    - core/once
 
 magnific-popup-field-image-init:
   version: VERSION
@@ -234,7 +233,7 @@ flexslider-in-page-init:
   dependencies:
     - guesthouse_lite/flexslider-global
     - core/drupal
-    - core/jquery.once
+    - core/once
     - core/drupalSettings
 
 owl-carousel:
@@ -256,7 +255,7 @@ owl-carousel-global:
   dependencies:
     - guesthouse_lite/owl-carousel
     - core/drupal
-    - core/jquery.once
+    - core/once
 
 owl-carousel-promoted-posts-init:
   version: VERSION
@@ -279,7 +278,7 @@ tooltip:
   dependencies:
     - core/jquery
     - core/drupal
-    - core/jquery.once
+    - core/once
 
 node:
   version: VERSION

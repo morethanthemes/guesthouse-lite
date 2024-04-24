@@ -1,8 +1,8 @@
-(function ($, Drupal, drupalSettings) {
+(function ($, Drupal, drupalSettings, once) {
   Drupal.behaviors.mtowlCarouselServiceCategories = {
     attach: function (context, settings) {
-      $(context).find('.mt-carousel-service-categories').once('mtowlCarouselServiceCategoriesInit').each(function() {
-        $(this).owlCarousel({
+        once('mtowlCarouselServiceCategoriesInit', ".mt-carousel-service-categoriess", context).forEach(function(item) {
+          $(item).owlCarousel({
           items: 1,
           responsive:{
             0:{
@@ -34,4 +34,4 @@
       });
     }
   };
-})(jQuery, Drupal, drupalSettings);
+})(jQuery, Drupal, drupalSettings, once);

@@ -3,6 +3,7 @@
 namespace Drupal\media\Plugin\media\Source;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldTypePluginManagerInterface;
@@ -22,7 +23,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   label = @Translation("Image"),
  *   description = @Translation("Use local images for reusable media."),
  *   allowed_field_types = {"image"},
- *   default_thumbnail_filename = "no-thumbnail.png"
+ *   default_thumbnail_filename = "no-thumbnail.png",
+ *   thumbnail_alt_metadata_attribute = "thumbnail_alt_value"
  * )
  */
 class Image extends File {
@@ -128,16 +130,20 @@ class Image extends File {
     }
 
     $uri = $file->getFileUri();
-    $image = $this->imageFactory->get($uri);
     switch ($name) {
       case static::METADATA_ATTRIBUTE_WIDTH:
+        $image = $this->imageFactory->get($uri);
         return $image->getWidth() ?: NULL;
 
       case static::METADATA_ATTRIBUTE_HEIGHT:
+        $image = $this->imageFactory->get($uri);
         return $image->getHeight() ?: NULL;
 
       case 'thumbnail_uri':
         return $uri;
+
+      case 'thumbnail_alt_value':
+        return $media->get($this->configuration['source_field'])->alt ?: parent::getMetadata($media, $name);
     }
 
     return parent::getMetadata($media, $name);
@@ -155,6 +161,26 @@ class Image extends File {
     $settings = $this->fieldTypeManager->getDefaultFieldSettings($field->getType());
 
     return $field->set('settings', $settings);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function prepareViewDisplay(MediaTypeInterface $type, EntityViewDisplayInterface $display) {
+    parent::prepareViewDisplay($type, $display);
+
+    // Use the `large` image style and do not link the image to anything.
+    // This will prevent the out-of-the-box configuration from outputting very
+    // large raw images. If the `large` image style has been deleted, do not
+    // set an image style.
+    $field_name = $this->getSourceFieldDefinition($type)->getName();
+    $component = $display->getComponent($field_name);
+    $component['settings']['image_link'] = '';
+    $component['settings']['image_style'] = '';
+    if ($this->entityTypeManager->getStorage('image_style')->load('large')) {
+      $component['settings']['image_style'] = 'large';
+    }
+    $display->setComponent($field_name, $component);
   }
 
 }

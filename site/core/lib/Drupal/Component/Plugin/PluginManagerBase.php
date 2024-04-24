@@ -29,7 +29,7 @@ abstract class PluginManagerBase implements PluginManagerInterface {
   /**
    * The object that returns the preconfigured plugin instance appropriate for a particular runtime condition.
    *
-   * @var \Drupal\Component\Plugin\Mapper\MapperInterface
+   * @var \Drupal\Component\Plugin\Mapper\MapperInterface|null
    */
   protected $mapper;
 
@@ -94,6 +94,10 @@ abstract class PluginManagerBase implements PluginManagerInterface {
    *
    * @return object
    *   A fallback plugin instance.
+   *
+   * @throws \BadMethodCallException
+   *   When ::getFallbackPluginId() is not implemented in the concrete plugin
+   *   manager class.
    */
   protected function handlePluginNotFound($plugin_id, array $configuration) {
     $fallback_id = $this->getFallbackPluginId($plugin_id, $configuration);
@@ -101,9 +105,36 @@ abstract class PluginManagerBase implements PluginManagerInterface {
   }
 
   /**
+   * Gets a fallback id for a missing plugin.
+   *
+   * This method should be implemented in extending classes that also implement
+   * FallbackPluginManagerInterface. It is called by
+   * PluginManagerBase::handlePluginNotFound on the abstract class, and
+   * therefore should be defined as well on the abstract class to prevent static
+   * analysis errors.
+   *
+   * @param string $plugin_id
+   *   The ID of the missing requested plugin.
+   * @param array $configuration
+   *   An array of configuration relevant to the plugin instance.
+   *
+   * @return string
+   *   The id of an existing plugin to use when the plugin does not exist.
+   *
+   * @throws \BadMethodCallException
+   *   If the method is not implemented in the concrete plugin manager class.
+   */
+  protected function getFallbackPluginId($plugin_id, array $configuration = []) {
+    throw new \BadMethodCallException(static::class . '::getFallbackPluginId() not implemented.');
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function getInstance(array $options) {
+    if (!$this->mapper) {
+      throw new \BadMethodCallException(sprintf('%s does not support this method unless %s::$mapper is set.', static::class, static::class));
+    }
     return $this->mapper->getInstance($options);
   }
 

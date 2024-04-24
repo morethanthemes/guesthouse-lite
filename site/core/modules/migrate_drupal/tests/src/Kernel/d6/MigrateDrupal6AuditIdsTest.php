@@ -10,6 +10,8 @@ use Drupal\node\Entity\NodeType;
 use Drupal\Tests\content_moderation\Traits\ContentModerationTestTrait;
 use Drupal\Tests\migrate_drupal\Traits\CreateTestContentEntitiesTrait;
 
+// cspell:ignore sourceid
+
 /**
  * Tests the migration auditor for ID conflicts.
  *
@@ -24,7 +26,7 @@ class MigrateDrupal6AuditIdsTest extends MigrateDrupal6TestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     // Enable all modules.
     self::$modules = array_keys($this->coreModuleListDataProvider());
     parent::setUp();
@@ -33,18 +35,23 @@ class MigrateDrupal6AuditIdsTest extends MigrateDrupal6TestBase {
     $this->installEntitySchemas();
 
     // Install required schemas.
+    // @todo Remove book in https://www.drupal.org/project/drupal/issues/3376101
     $this->installSchema('book', ['book']);
     $this->installSchema('dblog', ['watchdog']);
+    // @todo Remove forum in https://www.drupal.org/project/drupal/issues/3261653
     $this->installSchema('forum', ['forum_index']);
     $this->installSchema('node', ['node_access']);
     $this->installSchema('search', ['search_dataset']);
-    $this->installSchema('system', ['sequences']);
+    // @todo Remove tracker in https://www.drupal.org/project/drupal/issues/3261452
     $this->installSchema('tracker', ['tracker_node', 'tracker_user']);
 
     // Enable content moderation for nodes of type page.
     $this->installEntitySchema('content_moderation_state');
     $this->installConfig('content_moderation');
-    NodeType::create(['type' => 'page'])->save();
+    NodeType::create([
+      'type' => 'page',
+      'name' => 'Page',
+    ])->save();
     $workflow = $this->createEditorialWorkflow();
     $workflow->getTypePlugin()->addEntityTypeAndBundle('node', 'page');
     $workflow->save();
@@ -59,7 +66,7 @@ class MigrateDrupal6AuditIdsTest extends MigrateDrupal6TestBase {
     $node->moderation_state->value = 'published';
     $node->save();
 
-    // Insert data in the d6_node:page migration mappping table to simulate a
+    // Insert data in the d6_node:page migration mapping table to simulate a
     // previously migrated node.
     $id_map = $this->getMigration('d6_node:page')->getIdMap();
     $table_name = $id_map->mapTableName();
@@ -128,13 +135,12 @@ class MigrateDrupal6AuditIdsTest extends MigrateDrupal6TestBase {
     );
 
     $expected = [
-      'd6_aggregator_feed',
-      'd6_aggregator_item',
       'd6_comment',
       'd6_custom_block',
       'd6_file',
       'd6_menu_links',
       'd6_node',
+      'd6_node_complete',
       'd6_node_revision',
       'd6_taxonomy_term',
       'd6_term_node_revision',
@@ -158,8 +164,8 @@ class MigrateDrupal6AuditIdsTest extends MigrateDrupal6TestBase {
     $node->setNewRevision(TRUE);
     $node->save();
 
-    // Insert data in the d6_node_revision:page migration mappping table to
-    // simulate a previously migrated node revison.
+    // Insert data in the d6_node_revision:page migration mapping table to
+    // simulate a previously migrated node revision.
     $id_map = $this->getMigration('d6_node_revision:page')->getIdMap();
     $table_name = $id_map->mapTableName();
     $id_map->getDatabase()->insert($table_name)

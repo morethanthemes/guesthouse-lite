@@ -4,6 +4,7 @@ namespace Drupal\shortcut;
 
 use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Link;
 
 /**
  * Form handler for the shortcut entity forms.
@@ -22,6 +23,16 @@ class ShortcutForm extends ContentEntityForm {
   /**
    * {@inheritdoc}
    */
+  public function form(array $form, FormStateInterface $form_state) {
+    $form = parent::form($form, $form_state);
+    $form['#attached']['library'][] = 'core/drupal.form';
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function save(array $form, FormStateInterface $form_state) {
     $entity = $this->entity;
     $status = $entity->save();
@@ -30,7 +41,7 @@ class ShortcutForm extends ContentEntityForm {
     // 'link to any content', but has no right to access the linked page. So we
     // check the access before showing the link.
     if ($url->access()) {
-      $view_link = \Drupal::l($entity->getTitle(), $url);
+      $view_link = Link::fromTextAndUrl($entity->getTitle(), $url)->toString();
     }
     else {
       $view_link = $entity->getTitle();

@@ -12,6 +12,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Reverts the overridden layout to the defaults.
+ *
+ * @internal
+ *   Form classes are internal.
  */
 class RevertOverridesForm extends ConfirmFormBase {
 
@@ -96,6 +99,8 @@ class RevertOverridesForm extends ConfirmFormBase {
     }
 
     $this->sectionStorage = $section_storage;
+    // Mark this as an administrative page for JavaScript ("Back to site" link).
+    $form['#attached']['drupalSettings']['path']['currentPathIsAdmin'] = TRUE;
     return parent::buildForm($form, $form_state);
   }
 
@@ -103,19 +108,14 @@ class RevertOverridesForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    // Ensure the section storage is loaded from the database.
-    // @todo Remove after https://www.drupal.org/node/2970801.
-    $this->sectionStorage = \Drupal::service('plugin.manager.layout_builder.section_storage')->loadFromStorageId($this->sectionStorage->getStorageType(), $this->sectionStorage->getStorageId());
-
     // Remove all sections.
-    while ($this->sectionStorage->count()) {
-      $this->sectionStorage->removeSection(0);
-    }
-    $this->sectionStorage->save();
+    $this->sectionStorage
+      ->removeAllSections()
+      ->save();
     $this->layoutTempstoreRepository->delete($this->sectionStorage);
 
     $this->messenger->addMessage($this->t('The layout has been reverted back to defaults.'));
-    $form_state->setRedirectUrl($this->getCancelUrl());
+    $form_state->setRedirectUrl($this->sectionStorage->getRedirectUrl());
   }
 
 }
