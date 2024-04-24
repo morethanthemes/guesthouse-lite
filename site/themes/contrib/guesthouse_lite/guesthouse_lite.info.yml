@@ -2,7 +2,7 @@ name: GuestHouse Lite
 type: theme
 base theme: classy
 description: 'A flexible, recolorable theme with many regions and a responsive, mobile-first layout.'
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^8 || ^9 || ^10
 libraries:
   - guesthouse_lite/fontawesome
   - guesthouse_lite/global-styling
@@ -55,8 +55,7 @@ regions:
   footer: 'Subfooter Second'
   hidden_blocks_collection: 'Hidden blocks collection'
 
-# Information added by Drupal.org packaging script on 2018-09-25
-version: '8.x-1.0'
-core: '8.x'
+# Information added by Drupal.org packaging script on 2024-04-24
+version: '8.x-1.4'
 project: 'guesthouse_lite'
-datestamp: 1537885086
+datestamp: 1713955393
